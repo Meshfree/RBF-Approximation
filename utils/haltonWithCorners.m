@@ -1,4 +1,4 @@
-function H = haltonseq(NUMPTS,NDIMS);
+function H = haltonWithCorners(NUMPTS,NDIMS)
 
 %HALTONSEQ(NUMPTS,NDIMS,) Generate a Halton sequence in NDIMS dimensional space 
 %   containing NUMPTS.  The output is between 0 and 1.  NUMPTS may be a vector
@@ -52,6 +52,8 @@ for i = 1:NDIMS %Generate the components for each dimension.
 	pows = -repmat([1:size(V,2)],size(V,1),1);
 	H(:,i) = sum(V.*(P(i).^pows),2);
 end
+H = [H;0,0;0,1;1,0;1,1];
+end
 
 function s = dec2bigbase(d,base,n)
 %DEC2BIGBASE Convert decimal integer to base B vector.
@@ -96,4 +98,5 @@ while n ~= last
     n = n - 1;
     d = floor(d/base);
     s(:,n) = rem(d,base);
+end
 end
