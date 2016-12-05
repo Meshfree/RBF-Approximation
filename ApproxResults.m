@@ -1,7 +1,7 @@
 close all;
 clear variables;
 clc;
-addpath(genpath('/RBF-Approximation/'));
+addpath(genpath(pwd));
 
 alpha = 4;
 rbfG = @(r) exp(-(alpha*r).^2); 
