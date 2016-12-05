@@ -1,7 +1,7 @@
-function [E,N,M] = getErrorMatrix(F,rbfG,neval, int,haltonIntv,GriddIntv)
+function [E,N,M] = getErrorMatrix(F,rbfG,neval, int,haltonIntv)
 
 numberOfImpactPoints =haltonIntv(2);
-numberOfCenterPoints =50; 
+numberOfCenterPoints =49; 
 
 % centerOffset = 10;
 % centerSteps = 10;
@@ -13,13 +13,11 @@ steps = (pointEnd - pointOffset) / numberOfImpactPoints;
 E = zeros(numberOfImpactPoints,4);
 N = zeros(numberOfImpactPoints,1);
 
-
-    
 grid = unitGrid(numberOfCenterPoints);
 
-for i = 1:1:numberOfImpactPoints
+for i = 1:numberOfImpactPoints
 
-    haltons = haltonseq((i-1)*steps+ pointOffset,2);
+    haltons = haltonWithCorners((i-1)*steps+ pointOffset,2);
     [E1,E2,E3,E4] = CalculateImpactOfEvaluationPoints(F,rbfG,haltons,grid,neval, int);
     E(i,1) = E1;
     E(i,2) = E2;

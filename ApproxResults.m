@@ -1,7 +1,6 @@
 close all;
 clear variables;
 clc;
-
 addpath(genpath('/RBF-Approximation/'));
 
 ep = 4;
@@ -39,7 +38,7 @@ unit2DM81_n1_1 = calcIntervall(unit2DM81, int_n1_1);
 
 
 
-% RBFAApproximation2D(@F1,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F1 Gauss RBF, Halton k=%d, ep=%d', k, ep));
+RBFAApproximation2D(@F1,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F1 Gauss RBF, Halton k=%d, ep=%d', k, ep));
 
 % RBFAApproximation2D(@F2,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F2 Gauss RBF, Halton k=%d, ep=%d', k, ep));
 % RBFAApproximation2D(@F3,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F3 Gauss RBF, Halton k=%d, ep=%d', k, ep));
@@ -100,8 +99,8 @@ numberOfCenterPoints =50;
 % centerOffset = 10;
 % centerSteps = 10;
 
-pointOffset = 500;
-pointEnd = 1000;
+pointOffset = 200;
+pointEnd = 500;
 standardIntv = [pointOffset,numberOfImpactPoints,pointEnd];
 
 
@@ -125,32 +124,52 @@ standardIntv = [pointOffset,numberOfImpactPoints,pointEnd];
 [E11,N11] =getErrorMatrix(@F11,rbfG,neval, intDefault,standardIntv);
 
 
-figure;
-subplot(2,1,1);
-hold on;
+scrsz = get(groot,'ScreenSize');
+figureWidth = 1200;
+figureHeight = 600;
+caption = 'Normal RBF Approximation';
+figure('name',caption,'position',[scrsz(3)/2-figureWidth/2 scrsz(4)/2-figureHeight/2 figureWidth figureHeight]);
+
+
+subplot(1,2,1);
 grid on;
 axis on;
+
 loglog(N1,E1(:,1),N2,E2(:,1),N3,E3(:,1),N4,E4(:,1),N5,E5(:,1),N6,E6(:,1),N7,E7(:,1),N8,E8(:,1),N9,E9(:,1),N9,E9(:,1),N10,E10(:,1),N11,E11(:,1));
-% plot(N1,E1(:,3),N2,E2(:,3),N3,E3(:,3),N4,E4(:,3),N5,E5(:,3),N6,E6(:,3));
+
 title('Max Error per point');
 legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
 
 
-
-
-subplot(2,1,2);
-hold on;
+subplot(1,2,2);
 grid on;
 axis on;
 
 loglog(N1,E1(:,2),N2,E2(:,2),N3,E3(:,2),N4,E4(:,2),N5,E5(:,2),N6,E6(:,2),N7,E7(:,2),N8,E8(:,2),N9,E9(:,2),N9,E9(:,2),N10,E10(:,2),N11,E11(:,2));
+
 title('Mean Error per point');
-
-% plot(AllFunctionN,AllFunctionErrors(:,4));
 legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
-% legend('Mean Error per point','Mean Error per point (polynomial)');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+caption = 'RBF Approximation with polynomial reproduction';
+figure('name',caption,'position',[scrsz(3)/2-figureWidth/2 scrsz(4)/2-figureHeight/2 figureWidth figureHeight]);
+
+subplot(1,2,1);
+grid on;
+axis on;
+loglog(N1,E1(:,3),N2,E2(:,3),N3,E3(:,3),N4,E4(:,3),N5,E5(:,3),N6,E6(:,3),N7,E7(:,3),N8,E8(:,3),N9,E9(:,3),N9,E9(:,3),N10,E10(:,3),N11,E11(:,3));
+
+legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
 
 
+subplot(1,2,2);
+grid on;
+axis on;
+
+loglog(N1,E1(:,4),N2,E2(:,4),N3,E3(:,4),N4,E4(:,4),N5,E5(:,4),N6,E6(:,4),N7,E7(:,4),N8,E8(:,4),N9,E9(:,4),N9,E9(:,4),N10,E10(:,4),N11,E11(:,4));
+
+legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
 
 
 %RBFAApproximation2D(@Peaks,rbfG,halton2Dk5,unit2DM81,neval, intDefault);

@@ -72,14 +72,12 @@ function s = dec2bigbase(d,base,n)
 %   schwarz@kodak.com, schwarz@servtech.com
 %   1 October 1998
 
-error(nargchk(2,3,nargin));
-
 if size(d,2) ~= 1, d = d(:); end
 
 base = floor(base);
 if base < 2, error('B must be greater than 1.'); end
-if base == 2,
-  [x,nreq] = log2(max(d));
+if base == 2
+  [~,nreq] = log2(max(d));
 else
   nreq = ceil(log2(max(d) + 1)/log2(base)); 
 end
