@@ -22,7 +22,7 @@ intDefault = [0,1];
 %RBFAApproximation2D(testfunction,rbfMQ,halton(k,2),unitGrid(sqrt(M)),neval);
 %RBFAApproximation2D(testfunction,rbfTPS,halton(k,2),unitGrid(sqrt(M)),neval);
 
-halton2Dk5 = halton(k,2);
+halton2Dk5 = haltonWithCorners(81,2);
 unit2DM81 = unitGrid(sqrt(81));
 int_n2_2 = [-2,2];
 halton2Dk5_n2_2 = calcIntervall(halton2Dk5, int_n2_2);
@@ -36,9 +36,9 @@ unit2DM81_n1_1 = calcIntervall(unit2DM81, int_n1_1);
 
 
 
-RBFAApproximation2D(@F1,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F1 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
+RBFAApproximation2D(@F1,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F1 Gauss RBF, Halton k=%d, alpha=%d', k, 0.01));
 
-% RBFAApproximation2D(@F2,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F2 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
+RBFAApproximation2D(@F2,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F2 Gauss RBF, Halton k=%d, alpha=%d', k, 4));
 % RBFAApproximation2D(@F3,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F3 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
 % RBFAApproximation2D(@F4,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F4 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
 % RBFAApproximation2D(@F5,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F5 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));

@@ -1,5 +1,4 @@
-function [MAX_PP,Mean_PP,MAX_PP_p,Mean_PP_p] = CalculateImpactOfEvaluationPoints(testfunction, rbf, dsites, ctrs, neval, int)
-[N,~]= size(dsites);
+function [Pf,Pf_p,E,exact] = CalculateImpactOfEvaluationPoints(testfunction, rbf, dsites, ctrs, epoints)
 
 DM_data = DistanceMatrix(dsites,ctrs); % Build collocation matrix
 CM = rbf(DM_data);
@@ -7,8 +6,6 @@ CM = rbf(DM_data);
 % evaluate the test function at the data points.
 rhs = testfunction(dsites(:,1),dsites(:,2));
 %Create neval-by-neval equally spaced evaluation 7c locations in the unit square
-grid = linspace(int(1),int(2),neval); [xe,ye] = meshgrid(grid);
-epoints = [xe(:) ye(:)];
 %Compute distance matrix between evaluation points and centers
 DM_eval = DistanceMatrix(epoints,ctrs);
 EM = rbf(DM_eval);
@@ -18,9 +15,9 @@ exact = testfunction(epoints(:,1),epoints(:,2)); % Compute maximum error on eval
 
 tmp = Pf-exact;
 [row,~] = size(tmp);
-MAX_PP = max(tmp)/N; % Plots
+MAX_Error = max(tmp); % Plots
 
-Mean_PP = (sum(abs(tmp)))/row/N;
+Mean_Error = (sum(abs(tmp)))/row;
 
 P = polynomialTerm(dsites);
 %polynomial reproduction
@@ -32,12 +29,12 @@ RHS = [CM'*rhs ; P'*rhs];
 eval_P  = polynomialTerm(epoints);
 
 EM = [rbf(DM_eval),eval_P];
-Pf = EM * (PM\RHS);
+Pf_p = EM * (PM\RHS);
 
-MAX_PP_p = max(Pf-exact)/N; % Plots
+MAX_Error_p = max(Pf_p -exact); % Plots
+Mean_Error_p = ((sum(abs(Pf_p -exact)))/row);
 
-Mean_PP_p = ((sum(abs(Pf-exact)))/row)/N;
-
+E = [MAX_Error,Mean_Error,MAX_Error_p,Mean_Error_p];
 
 end
 
