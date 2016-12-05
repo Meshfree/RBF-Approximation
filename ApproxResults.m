@@ -2,6 +2,8 @@ close all;
 clear variables;
 clc;
 
+addpath(genpath('/RBF-Approximation/'));
+
 ep = 4;
 rbfG = @(r) exp(-(ep*r).^2); 
 rbfIQ = @(r) 1 ./(1 + (ep* r).^2);
