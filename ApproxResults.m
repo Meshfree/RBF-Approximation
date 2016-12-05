@@ -11,8 +11,6 @@ rbfMQ = @(r) sqrt(1 + (alpha* r).^2);
 rbfTPS = @ (r) (alpha * r).^2 .* log(alpha * r);
 
 
-testfunction = @(x,y) sinc(x).*sinc(y);
-
 k = 4;
 M = 200;
 neval = 60;

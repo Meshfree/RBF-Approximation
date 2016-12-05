@@ -1,6 +1,7 @@
 close all;
 clear variables;
 clc;
+addpath(genpath('/RBF-Approximation/'));
 
 k = 300;
 neval = 60;
