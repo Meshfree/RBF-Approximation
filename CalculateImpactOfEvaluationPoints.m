@@ -13,7 +13,7 @@ EM = rbf(DM_eval);
 Pf = EM * (CM\rhs);
 exact = testfunction(epoints(:,1),epoints(:,2)); % Compute maximum error on evaluation grid
 
-tmp = Pf-exact;
+tmp = Pf-exact
 [row,~] = size(tmp);
 MAX_Error = max(tmp); % Plots
 
