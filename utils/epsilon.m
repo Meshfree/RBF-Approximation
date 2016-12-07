@@ -2,7 +2,8 @@ function epsilon = epsilon(numberOfPartsX,numberOfPartsY)
 %    numberOfDims =  numel(delta);
 
     if(nargin==1)
-        numberOfPartsY = numberOfPartsX;
+        numberOfPartsY = floor(sqrt(numberOfPartsX));
+        numberOfPartsX = floor(sqrt(numberOfPartsX));
     end
      deltaX= 1/numberOfPartsX;
      deltaY= 1/numberOfPartsY;

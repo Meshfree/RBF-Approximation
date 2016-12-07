@@ -23,7 +23,7 @@ intDefault = [0,1];
 %RBFAApproximation2D(testfunction,rbfTPS,halton(k,2),unitGrid(sqrt(M)),neval);
 
 halton2Dk5 = haltonWithCorners(81,2);
-unit2DM81 = unitGrid(sqrt(81));
+unit2DM81 = unitGrid(81);
 int_n2_2 = [-2,2];
 halton2Dk5_n2_2 = calcIntervall(halton2Dk5, int_n2_2);
 unit2DM81_n2_2 = calcIntervall(unit2DM81, int_n2_2);

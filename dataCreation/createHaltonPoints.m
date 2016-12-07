@@ -7,7 +7,7 @@ function createHaltonPoints(points, filename)
     end
     pointsPerEdge = 20;
     eval(sprintf('haltonPointsEdges%d = haltonWithEdgesAndCorners(points(1),2,pointsPerEdge);', points(1)));
-    eval(sprintf('haltonPointsEdges%d = haltonWithEdgesAndCorners(points(length(points)),2, pointsPerEdge);', points(length(points))));
+    eval(sprintf('haltonPointsEdges%d = haltonWithEdgesAndCorners(points(2),2, pointsPerEdge);', points(length(points))));
     
     save(filename, 'haltonPoints*');
 end
