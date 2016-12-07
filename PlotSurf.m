@@ -11,7 +11,7 @@ set(Pfplot,'FaceColor' ,'interp','EdgeColor','none');
 %caxis([cmin-.25*maxerr cmax]);
 view(fview);
 
-colormap winter
+colormap hot;
 %vcb = colorbar('vert') ;
 vcb = colorbar() ;
 ylim(vcb,[0 maxerr])

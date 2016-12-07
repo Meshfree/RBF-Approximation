@@ -13,7 +13,7 @@ EM = rbf(DM_eval);
 Pf = EM * (CM\rhs);
 exact = f(epoints(:,1),epoints(:,2)); % Compute maximum error on evaluation grid
 
-tmp = Pf-exact;
+tmp = abs(Pf-exact);
 [row,~] = size(tmp);
 MAX_Error = max(tmp); % Plots
 
@@ -31,7 +31,7 @@ eval_P  = polynomialTerm(epoints);
 EM = [rbf(DM_eval),eval_P];
 Pf_p = EM * (PM\RHS);
 
-MAX_Error_p = max(Pf_p -exact); % Plots
+MAX_Error_p = max(abs(Pf_p -exact)); % Plots
 Mean_Error_p = ((sum(abs(Pf_p -exact)))/row);
 
 E = [MAX_Error,Mean_Error,MAX_Error_p,Mean_Error_p];

@@ -2,7 +2,7 @@ close all;
 clear variables;
 clc;
 addpath(genpath(pwd));
-alpha = 0.005;
+alpha =5;
 rbfG = @(r) exp(-(alpha*r).^2); 
 rbfIQ = @(r) 1./(1 + (alpha* r).^2);
 
@@ -22,16 +22,30 @@ figure;
 unit = unitGrid(20);
 plot(haltonPoints500(:,1),haltonPoints500(:,2),'bo',unit2DM81(:,1),unit2DM81(:,2),'rx')
 
-figure;
+
 epoints = [xe(:) ye(:)];
 [pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@franke, rbfG, haltonPoints81, unit2DM81,epoints);
 % figure;
 % surf(xe,ye,reshape(exact,neval,neval));
 % hold on;
 % surf(xe*1000,ye*1000,reshape(pf_p,neval,neval))
+maxError =max(E(1),E(3));
 
-fview = [100,30]; % viewing angles for plot
-PlotSurf(xe*1000,ye*1000,pf,neval,exact,E(1),fview)
+errorPfandPf_p = abs(pf_p -exact)- abs(pf-exact);
 figure;
-PlotError2D(xe*1000,ye*1000,pf,exact,E(1),neval,fview);
+surf(xe,ye,reshape(errorPfandPf_p,neval,neval));
+
+colormapeditor
+% 
+% figure;
+% fview = [100,30]; % viewing angles for plot
+% subplot(2,2,1);
+% PlotSurf(xe,ye,pf,neval,exact,maxError,fview);
+% subplot(2,2,2);
+% PlotSurf(xe,ye,pf_p,neval,exact,maxError,fview);
+% subplot(2,2,3);
+% PlotError2D(xe,ye,pf,exact,maxError,neval,fview);
+% subplot(2,2,4);
+% PlotError2D(xe,ye,pf_p,exact,maxError,neval,fview);
+% 
 
