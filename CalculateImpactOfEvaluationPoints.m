@@ -1,6 +1,6 @@
 function [Pf,Pf_p,E,exact] = CalculateImpactOfEvaluationPoints(f, rbf, dsites, ctrs, epoints)
 
-DM_data = DistanceMatrix(dsites,ctrs) % Build collocation matrix
+DM_data = DistanceMatrix(dsites,ctrs); % Build collocation matrix
 CM = rbf(DM_data);
 % Create right-hand side vector, i.e.,
 % evaluate the test function at the data points.
