@@ -3,7 +3,14 @@ clear variables;
 clc;
 addpath(genpath(pwd));
 
-alpha = 4;
+
+load('centerPoints.mat')
+load('haltonPoints.mat')
+
+
+
+
+alpha = 2.5;
 rbfG = @(r) exp(-(alpha*r).^2); 
 rbfIQ = @(r) 1 ./(1 + (alpha* r).^2);
 rbfIMQ = @(r) 1 ./sqrt(1 + (alpha* r).^2);
@@ -11,34 +18,28 @@ rbfMQ = @(r) sqrt(1 + (alpha* r).^2);
 rbfTPS = @ (r) (alpha * r).^2 .* log(alpha * r);
 
 
-k = 4;
-M = 200;
-neval = 60;
-intDefault = [0,1];
 
 %RBFAApproximation2D(testfunction,rbfG,halton(k,2),unitGrid(sqrt(M)),neval);
 %RBFAApproximation2D(@F3,rbfG,halton(k,2),unitGrid(sqrt(M)),neval);
 %RBFAApproximation2D(testfunction,rbfIMQ,halton(k,2),unitGrid(sqrt(M)),neval);
 %RBFAApproximation2D(testfunction,rbfMQ,halton(k,2),unitGrid(sqrt(M)),neval);
 %RBFAApproximation2D(testfunction,rbfTPS,halton(k,2),unitGrid(sqrt(M)),neval);
-
-halton2Dk5 = haltonWithCorners(81,2);
-unit2DM81 = unitGrid(81);
+intDefault = [0,1];
 int_n2_2 = [-2,2];
-halton2Dk5_n2_2 = calcIntervall(halton2Dk5, int_n2_2);
-unit2DM81_n2_2 = calcIntervall(unit2DM81, int_n2_2);
+halton2Dk5_n2_2 = calcIntervall(haltonPoints1000, int_n2_2,int_n2_2);
+unit2DM81_n2_2 = calcIntervall(centerPoints225, int_n2_2,int_n2_2);
 
 int_n1_1 = [-1,1];
-halton2Dk5_n1_1 = calcIntervall(halton2Dk5, int_n1_1);
-unit2DM81_n1_1 = calcIntervall(unit2DM81, int_n1_1);
+halton2Dk5_n1_1 = calcIntervall(haltonPoints1000, int_n1_1,int_n1_1);
+unit2DM81_n1_1 = calcIntervall(centerPoints225, int_n1_1,int_n1_1);
 
 
 
 
 
-RBFAApproximation2D(@F1,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F1 Gauss RBF, Halton k=%d, alpha=%d', k, 0.01));
-
-RBFAApproximation2D(@F2,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F2 Gauss RBF, Halton k=%d, alpha=%d', k, 4));
+RBFAApproximation2D(@F3,rbfIQ,haltonPoints2000,centerPoints225,60, intDefault, sprintf('F1 Gauss RBF, Halton k=%d, alpha=%d', 1000, alpha));
+% 
+% RBFAApproximation2D(@F2,rbfG,haltonPoints1000,centerPoints225,neval, intDefault, sprintf('F2 Gauss RBF, Halton k=%d, alpha=%d', 1000, alpha));
 % RBFAApproximation2D(@F3,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F3 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
 % RBFAApproximation2D(@F4,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F4 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
 % RBFAApproximation2D(@F5,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F5 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
@@ -102,72 +103,72 @@ pointEnd = 500;
 standardIntv = [pointOffset,numberOfImpactPoints,pointEnd];
 
 
-
-[E1,N1] = getErrorMatrix(@F1,rbfG,neval, intDefault,standardIntv);
-
-[E2,N2] =getErrorMatrix(@F2,rbfG,neval, intDefault,standardIntv);
-
-[E3,N3] =getErrorMatrix(@F3,rbfG,neval, intDefault,standardIntv);
-
-[E4,N4] =getErrorMatrix(@F4,rbfG,neval, intDefault, standardIntv);
-
-[E5,N5] =getErrorMatrix(@F5,rbfG,neval, intDefault, standardIntv);
-
-[E6,N6] =getErrorMatrix(@F6,rbfG,neval, intDefault, standardIntv);
-
-[E7,N7] =getErrorMatrix(@F7,rbfG,neval, int_n1_1,standardIntv);
-[E8,N8] =getErrorMatrix(@F8,rbfG,neval, int_n2_2,standardIntv);
-[E9,N9] =getErrorMatrix(@F9,rbfG,neval, intDefault,standardIntv);
-[E10,N10] =getErrorMatrix(@F10,rbfG,neval, intDefault,standardIntv);
-[E11,N11] =getErrorMatrix(@F11,rbfG,neval, intDefault,standardIntv);
-
-
-scrsz = get(groot,'ScreenSize');
-figureWidth = 1200;
-figureHeight = 600;
-caption = 'Normal RBF Approximation';
-figure('name',caption,'position',[scrsz(3)/2-figureWidth/2 scrsz(4)/2-figureHeight/2 figureWidth figureHeight]);
-
-
-subplot(1,2,1);
-grid on;
-axis on;
-
-loglog(N1,E1(:,1),N2,E2(:,1),N3,E3(:,1),N4,E4(:,1),N5,E5(:,1),N6,E6(:,1),N7,E7(:,1),N8,E8(:,1),N9,E9(:,1),N9,E9(:,1),N10,E10(:,1),N11,E11(:,1));
-
-title('Max Error per point');
-legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
-
-
-subplot(1,2,2);
-grid on;
-axis on;
-
-loglog(N1,E1(:,2),N2,E2(:,2),N3,E3(:,2),N4,E4(:,2),N5,E5(:,2),N6,E6(:,2),N7,E7(:,2),N8,E8(:,2),N9,E9(:,2),N9,E9(:,2),N10,E10(:,2),N11,E11(:,2));
-
-title('Mean Error per point');
-legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-caption = 'RBF Approximation with polynomial reproduction';
-figure('name',caption,'position',[scrsz(3)/2-figureWidth/2 scrsz(4)/2-figureHeight/2 figureWidth figureHeight]);
-
-subplot(1,2,1);
-grid on;
-axis on;
-loglog(N1,E1(:,3),N2,E2(:,3),N3,E3(:,3),N4,E4(:,3),N5,E5(:,3),N6,E6(:,3),N7,E7(:,3),N8,E8(:,3),N9,E9(:,3),N9,E9(:,3),N10,E10(:,3),N11,E11(:,3));
-
-legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
-
-
-subplot(1,2,2);
-grid on;
-axis on;
-
-loglog(N1,E1(:,4),N2,E2(:,4),N3,E3(:,4),N4,E4(:,4),N5,E5(:,4),N6,E6(:,4),N7,E7(:,4),N8,E8(:,4),N9,E9(:,4),N9,E9(:,4),N10,E10(:,4),N11,E11(:,4));
-
-legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
-
+% 
+% [E1,N1] = getErrorMatrix(@F1,rbfG,neval,intDefault,haltonPoints1000,centerPoints225);
+% 
+% [E2,N2] =getErrorMatrix(@F2,rbfG,neval,intDefault,haltonPoints1000,centerPoints225);
+% 
+% [E3,N3] =getErrorMatrix(@F3,rbfG,neval,intDefault,haltonPoints1000,centerPoints225);
+% 
+% [E4,N4] =getErrorMatrix(@F4,rbfG,neval,intDefault,haltonPoints1000,centerPoints225);
+% 
+% [E5,N5] =getErrorMatrix(@F5,rbfG,neval,intDefault,haltonPoints1000,centerPoints225);
+% 
+% [E6,N6] =getErrorMatrix(@F6,rbfG,neval,intDefault,haltonPoints1000,centerPoints225);
+% 
+% % [E7,N7] =getErrorMatrix(@F7,rbfG,neval, int_n1_1,standardIntv);
+% % [E8,N8] =getErrorMatrix(@F8,rbfG,neval, int_n2_2,standardIntv);
+% % [E9,N9] =getErrorMatrix(@F9,rbfG,neval, intDefault,standardIntv);
+% % [E10,N10] =getErrorMatrix(@F10,rbfG,neval, intDefault,standardIntv);
+% % [E11,N11] =getErrorMatrix(@F11,rbfG,neval, intDefault,standardIntv);
+% 
+% 
+% scrsz = get(groot,'ScreenSize');
+% figureWidth = 1200;
+% figureHeight = 600;
+% caption = 'Normal RBF Approximation';
+% figure('name',caption,'position',[scrsz(3)/2-figureWidth/2 scrsz(4)/2-figureHeight/2 figureWidth figureHeight]);
+% 
+% 
+% subplot(1,2,1);
+% grid on;
+% axis on;
+% 
+% loglog(N1,E1(:,1),N2,E2(:,1),N3,E3(:,1),N4,E4(:,1),N5,E5(:,1),N6,E6(:,1),N7,E7(:,1),N8,E8(:,1),N9,E9(:,1),N9,E9(:,1),N10,E10(:,1),N11,E11(:,1));
+% 
+% title('Max Error per point');
+% legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
+% 
+% 
+% subplot(1,2,2);
+% grid on;
+% axis on;
+% 
+% loglog(N1,E1(:,2),N2,E2(:,2),N3,E3(:,2),N4,E4(:,2),N5,E5(:,2),N6,E6(:,2),N7,E7(:,2),N8,E8(:,2),N9,E9(:,2),N9,E9(:,2),N10,E10(:,2),N11,E11(:,2));
+% 
+% title('Mean Error per point');
+% legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% caption = 'RBF Approximation with polynomial reproduction';
+% figure('name',caption,'position',[scrsz(3)/2-figureWidth/2 scrsz(4)/2-figureHeight/2 figureWidth figureHeight]);
+% 
+% subplot(1,2,1);
+% grid on;
+% axis on;
+% loglog(N1,E1(:,3),N2,E2(:,3),N3,E3(:,3),N4,E4(:,3),N5,E5(:,3),N6,E6(:,3),N7,E7(:,3),N8,E8(:,3),N9,E9(:,3),N9,E9(:,3),N10,E10(:,3),N11,E11(:,3));
+% 
+% legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
+% 
+% 
+% subplot(1,2,2);
+% grid on;
+% axis on;
+% 
+% loglog(N1,E1(:,4),N2,E2(:,4),N3,E3(:,4),N4,E4(:,4),N5,E5(:,4),N6,E6(:,4),N7,E7(:,4),N8,E8(:,4),N9,E9(:,4),N9,E9(:,4),N10,E10(:,4),N11,E11(:,4));
+% 
+% legend('f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11');
+% 
 
 %RBFAApproximation2D(@Peaks,rbfG,halton2Dk5,unit2DM81,neval, intDefault);
