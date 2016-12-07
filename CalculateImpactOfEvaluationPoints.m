@@ -1,19 +1,19 @@
-function [Pf,Pf_p,E,exact] = CalculateImpactOfEvaluationPoints(testfunction, rbf, dsites, ctrs, epoints)
+function [Pf,Pf_p,E,exact] = CalculateImpactOfEvaluationPoints(f, rbf, dsites, ctrs, epoints)
 
-DM_data = DistanceMatrix(dsites,ctrs); % Build collocation matrix
-CM = rbf(DM_data);
+DM_data = DistanceMatrix(dsites,ctrs) % Build collocation matrix
+CM = rbf(DM_data)
 % Create right-hand side vector, i.e.,
 % evaluate the test function at the data points.
-rhs = testfunction(dsites(:,1),dsites(:,2));
+rhs = f(dsites(:,1),dsites(:,2));
 %Create neval-by-neval equally spaced evaluation 7c locations in the unit square
 %Compute distance matrix between evaluation points and centers
 DM_eval = DistanceMatrix(epoints,ctrs);
 EM = rbf(DM_eval);
 %Compute RBF least squares approximation
 Pf = EM * (CM\rhs);
-exact = testfunction(epoints(:,1),epoints(:,2)); % Compute maximum error on evaluation grid
+exact = f(epoints(:,1),epoints(:,2)); % Compute maximum error on evaluation grid
 
-tmp = Pf-exact
+tmp = Pf-exact;
 [row,~] = size(tmp);
 MAX_Error = max(tmp); % Plots
 
