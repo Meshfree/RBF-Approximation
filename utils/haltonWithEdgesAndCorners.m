@@ -1,4 +1,4 @@
-function H = haltonWithEdgesAndCorners(NUMPTS,NDIMS)
+function H = haltonWithEdgesAndCorners(NUMPTS,NDIMS, pointsPerEdge)
 
 %HALTONSEQ(NUMPTS,NDIMS,) Generate a Halton sequence in NDIMS dimensional space 
 %   containing NUMPTS.  The output is between 0 and 1.  NUMPTS may be a vector
@@ -52,7 +52,10 @@ for i = 1:NDIMS %Generate the components for each dimension.
 	pows = -repmat([1:size(V,2)],size(V,1),1);
 	H(:,i) = sum(V.*(P(i).^pows),2);
 end
-H = [H;0,0;0,1;1,0;1,1;0,0.2;0,0.4;0,0.6;0,0.8;1,0.2;1,0.4;1,0.6;1,0.8;0.2,0;0.4,0;0.6,0;0.8,0;0.2,1;0.4,1;0.6,1;0.8,1];
+H = [H;[[zeros(1,pointsPerEdge)',linspace(0,1-1/pointsPerEdge,pointsPerEdge)']; ...
+       [ones(1,pointsPerEdge)',linspace(1/pointsPerEdge,1,pointsPerEdge)']; ...
+       [linspace(0,1-1/pointsPerEdge,pointsPerEdge)',ones(1,pointsPerEdge)']; ...
+       [linspace(1/pointsPerEdge,1,pointsPerEdge)',zeros(1,pointsPerEdge)']]];
 end
 
 function s = dec2bigbase(d,base,n)
