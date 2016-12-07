@@ -9,8 +9,11 @@ rhs = f(dsites(:,1),dsites(:,2));
 %Compute distance matrix between evaluation points and centers
 DM_eval = DistanceMatrix(epoints,ctrs);
 EM = rbf(DM_eval);
+
+% Pf =EM *( (CM'*CM)\CM'*rhs);
+
 %Compute RBF least squares approximation
-Pf = EM * (CM\rhs);
+Pf = EM *  pcg((CM'*CM),CM'*rhs);
 exact = f(epoints(:,1),epoints(:,2)); % Compute maximum error on evaluation grid
 
 tmp = abs(Pf-exact);
