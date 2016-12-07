@@ -13,7 +13,8 @@ EM = rbf(DM_eval);
 % Pf =EM *( (CM'*CM)\CM'*rhs);
 
 %Compute RBF least squares approximation
-Pf = EM *  pcg((CM'*CM),CM'*rhs);
+% Pf = EM *  pcg((CM'*CM),CM'*rhs);
+Pf = EM * (CM\rhs);
 exact = f(epoints(:,1),epoints(:,2)); % Compute maximum error on evaluation grid
 
 tmp = abs(Pf-exact);
@@ -33,6 +34,7 @@ eval_P  = polynomialTerm(epoints);
 
 EM = [rbf(DM_eval),eval_P];
 Pf_p = EM * (PM\RHS);
+positiveDefinit = all(eig(PM))>0
 
 MAX_Error_p = max(abs(Pf_p -exact)); % Plots
 Mean_Error_p = ((sum(abs(Pf_p -exact)))/row);
