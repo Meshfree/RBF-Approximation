@@ -2,3 +2,4 @@
 /*.zip
 /octave-workspace
 /matlab_workspace.mat
+/data/*.mat
