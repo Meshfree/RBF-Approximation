@@ -6,7 +6,7 @@
 % DM: MxN matrix whose i,j position contains the Euclidean
 % distance between the i-th data site and j-th center
 function DM = DistanceMatrix(dsites,ctrs)
-[M,s] = size(dsites);
+[M,~] = size(dsites);
 [N,s] = size(ctrs);
 DM = zeros(M,N);
 % Accumulate sum of squares of coordinate differences
