@@ -7,11 +7,12 @@ addpath(genpath(pwd));
 load('centerPoints.mat')
 load('haltonPoints.mat')
 load('epsilonPoints.mat')
+load('unitGridPoints.mat')
 
 
 
 
-alpha =1.2;
+alpha =1.45;
 rbfG = @(r) exp(-(alpha*r).^2); 
 rbfIQ = @(r) 1 ./(1 + (alpha* r).^2);
 rbfIMQ = @(r) 1 ./sqrt(1 + (alpha* r).^2);
@@ -36,9 +37,9 @@ unit2DM81_n1_1 = calcIntervall(centerPoints225, int_n1_1,int_n1_1);
 
 
 
-
-
-RBFAApproximation2D(@F5,rbfIQ,epsilonPoints2000,centerPoints225,60, intDefault, sprintf('F5 IQ RBF, epsilon k=%d, alpha=%d', 2000, alpha),'epsilon');
+    
+pointType = 'epsilon'
+RBFAApproximation2D(@F5,rbfIQ,epsilonPoints2000,centerPoints225,60, intDefault, sprintf('F4 IQ RBF, %s k=%d, alpha=%d',pointType, 2000, alpha),pointType);
 % 
 % RBFAApproximation2D(@F2,rbfG,haltonPoints1000,centerPoints225,neval, intDefault, sprintf('F2 Gauss RBF, Halton k=%d, alpha=%d', 1000, alpha));
 % RBFAApproximation2D(@F3,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F3 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
