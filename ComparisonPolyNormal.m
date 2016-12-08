@@ -2,7 +2,7 @@ close all;
 clear variables;
 clc;
 addpath(genpath(pwd));
-alpha =2.5;
+alpha =3;
 rbfG = @(r) exp(-(alpha*r).^2); 
 rbfIQ = @(r) 1./(1 + (alpha* r).^2);
 
@@ -21,7 +21,7 @@ gridY = linspace(0,1,neval);
 [xe,ye] = meshgrid(gridX,gridY);
 
 epoints = [xe(:) ye(:)];
-[pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F3, rbfIQ, haltonPoints2000, centerPoints225,epoints);
+[pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F2, rbfG, haltonPoints2000, centerPoints225,epoints);
 
 % figure;
 % surf(xe,ye,reshape(pf_p,neval,neval))
@@ -50,8 +50,11 @@ for i =1:length(unit)
     u(i,:) =  [x,E(1),x,E(3)];
 end
 
-plot(e(:,1),e(:,2),'--r',e(:,3),e(:,4),'-r',h(:,1),h(:,2),'--g',h(:,3),h(:,4),'-g',u(:,1),u(:,2),'--b',u(:,3),u(:,4),'-b')
-legend('epsilonPoints polynom','epsilonPoints','haltonPoints with polynom','haltonPoints','unitPoints with polynom','unitPoints')
+plot(e(:,1),e(:,2),'--r*',e(:,3),e(:,4),'-r',h(:,1),h(:,2),'--gs',h(:,3),h(:,4),'-g',u(:,1),u(:,2),'--bo',u(:,3),u(:,4),'-b')
+legend('epsilonPoints','epsilonPoints polynom','haltonPoints','haltonPoints with polynom','unitPoints','unitPoints with polynom')
+xlabel('number of used points');
+ylabel('Error');
+
 
 % errorPfandPf_p = abs(pf_p -exact)- abs(pf-exact);
 % figure;

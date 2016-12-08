@@ -1,4 +1,4 @@
-function RBFAApproximation2D(f, rbf, dsites, ctrs,neval, int, caption)
+function RBFAApproximation2D(f, rbf, dsites, ctrs,neval, int, caption,pointType)
 
 gridX = linspace(0,1,neval);
 gridY = linspace(0,1,neval);
@@ -22,7 +22,7 @@ sizeCtrs = size(ctrs);
 
 subplot(2,3,1);
 plot(dsites(:,1),dsites(:,2),'bo',ctrs(:,1),ctrs(:,2),'r+');
-title(sprintf('%d Hamilton Points with %d Centers',sizeDsites(1), sizeCtrs(1)));
+title(sprintf('%d  %s Points with %d Centers',sizeDsites(1),pointType, sizeCtrs(1)));
 subplot(2,3,2);
 PlotSurf(xe,ye,Pf,neval,exact,E(1),fview);
 title('RBF Approximation');
