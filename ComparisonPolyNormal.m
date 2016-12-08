@@ -2,7 +2,7 @@ close all;
 clear variables;
 clc;
 addpath(genpath(pwd));
-alpha =3;
+alpha =1.45;
 rbfG = @(r) exp(-(alpha*r).^2); 
 rbfIQ = @(r) 1./(1 + (alpha* r).^2);
 
@@ -33,28 +33,32 @@ unit = {unitGrid1000,unitGrid1200,unitGrid1400,unitGrid1600,unitGrid1800,unitGri
 e = zeros(length(epsilon),4)
 for i =1:length(epsilon)
     x =i*200 + 1000;
-    [pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F3, rbfIQ, epsilon{i}, centerPoints225,epoints);
+    [pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F5, rbfIQ, epsilon{i}, centerPoints225,epoints);
     e(i,:) = [x,E(1),x,E(3)];
 end
 h =zeros(length(halton),4);
 for i =1:length(halton)
      x =i*200 + 1000;
-    [pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F3, rbfIQ, halton{i}, centerPoints225,epoints);
+    [pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F5, rbfIQ, halton{i}, centerPoints225,epoints);
     h(i,:) = [x,E(1),x,E(3)];
 end
 
 u = zeros(length(unit),4);
 for i =1:length(unit)
      x =i*200 + 1000;
-    [pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F3, rbfIQ, unit{i}, centerPoints225,epoints);
+    [pf,pf_p,E,exact] = CalculateImpactOfEvaluationPoints(@F5, rbfIQ, unit{i}, centerPoints225,epoints);
     u(i,:) =  [x,E(1),x,E(3)];
 end
+% 
+% plot(e(:,1),e(:,2),'--r*',e(:,3),e(:,4),'-r',h(:,1),h(:,2),'--gs',h(:,3),h(:,4),'-g',u(:,1),u(:,2),'--bo',u(:,3),u(:,4),'-b')
+% legend('epsilonPoints','epsilonPoints polynom','haltonPoints','haltonPoints with polynom','unitPoints','unitPoints with polynom')
+% xlabel('number of used points');
+% ylabel('Error');
 
-plot(e(:,1),e(:,2),'--r*',e(:,3),e(:,4),'-r',h(:,1),h(:,2),'--gs',h(:,3),h(:,4),'-g',u(:,1),u(:,2),'--bo',u(:,3),u(:,4),'-b')
-legend('epsilonPoints','epsilonPoints polynom','haltonPoints','haltonPoints with polynom','unitPoints','unitPoints with polynom')
+plot(e(:,1),e(:,2),'--r*',h(:,1),h(:,2),'-g',u(:,1),u(:,2),'--bo')
+legend('epsilonPoints','haltonPoints','unitPoints')
 xlabel('number of used points');
 ylabel('Error');
-
 
 % errorPfandPf_p = abs(pf_p -exact)- abs(pf-exact);
 % figure;
