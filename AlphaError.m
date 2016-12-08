@@ -27,7 +27,7 @@ alpha = values(i);
 rbfG = @(r) exp(-(alpha*r).^2);
 rbfIQ = @(r) 1./(1 + (alpha* r).^2);
 
-[E1,N1] = getErrorMatrix(@F4,rbfIQ,neval,intDefault,haltons,centerPoints225);
+[E1,N1] = getErrorMatrix(@F3,rbfIQ,neval,intDefault,haltons,centerPoints225);
 
 subplot(1,2,1);
 hold on;

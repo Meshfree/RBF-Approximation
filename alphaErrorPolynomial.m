@@ -8,7 +8,7 @@ k = 300;
 neval = 60;
 intDefault = [0,1];
 
-values_p =  [2.5,3.0,3.5];
+values_p =  [2.5,2.7,3.0];
 formats= [':ob';'--b';':*b';':sk';'--k';':*k';':oc';'--c';':*c';':om';'--m'];
 
 

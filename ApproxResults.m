@@ -1,4 +1,4 @@
-close all;
+
 clear variables;
 clc;
 addpath(genpath(pwd));
@@ -37,7 +37,7 @@ unit2DM81_n1_1 = calcIntervall(centerPoints225, int_n1_1,int_n1_1);
 
 
 
-RBFAApproximation2D(@F3,rbfIQ,haltonPoints2000,centerPoints225,60, intDefault, sprintf('F1 Gauss RBF, Halton k=%d, alpha=%d', 1000, alpha));
+RBFAApproximation2D(@F3,rbfIQ,haltonPoints2000,centerPoints225,60, intDefault, sprintf('F1 QI RBF, Halton k=%d, alpha=%d', 2000, alpha));
 % 
 % RBFAApproximation2D(@F2,rbfG,haltonPoints1000,centerPoints225,neval, intDefault, sprintf('F2 Gauss RBF, Halton k=%d, alpha=%d', 1000, alpha));
 % RBFAApproximation2D(@F3,rbfG,halton2Dk5,unit2DM81,neval, intDefault, sprintf('F3 Gauss RBF, Halton k=%d, alpha=%d', k, alpha));
